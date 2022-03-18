@@ -15,3 +15,13 @@ def get_answer(prompt):
         temperature=0.7,
     )
     return response.choices[0].text.strip()
+
+
+def main():
+    user_input = input("You: ").strip()
+    answer = get_answer(user_input)
+    print("\nTutor: " + answer + "\n")
+
+
+if __name__ == "__main__":
+    main()
