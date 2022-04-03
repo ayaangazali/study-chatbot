@@ -6,8 +6,15 @@ import openai
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+PREAMBLE = (
+    "You are a helpful study tutor. Explain things clearly and simply, "
+    "give examples, and help the student actually learn the material. "
+    "Keep the conversation friendly and encouraging.\n\n"
+)
 
-def get_answer(prompt):
+
+def get_answer(question):
+    prompt = PREAMBLE + "Student: " + question + "\nTutor:"
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
