@@ -25,9 +25,13 @@ def get_answer(question):
 
 
 def main():
-    user_input = input("You: ").strip()
-    answer = get_answer(user_input)
-    print("\nTutor: " + answer + "\n")
+    print("Study Tutor - ask me anything about what you're studying.")
+    while True:
+        user_input = input("You: ").strip()
+        if not user_input:
+            continue
+        answer = get_answer(user_input)
+        print("\nTutor: " + answer + "\n")
 
 
 if __name__ == "__main__":
