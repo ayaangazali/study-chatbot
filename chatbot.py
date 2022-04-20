@@ -13,8 +13,8 @@ PREAMBLE = (
 )
 
 
-def get_answer(question):
-    prompt = PREAMBLE + "Student: " + question + "\nTutor:"
+def get_answer(transcript):
+    prompt = PREAMBLE + transcript + "Tutor:"
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -26,11 +26,16 @@ def get_answer(question):
 
 def main():
     print("Study Tutor - ask me anything about what you're studying.")
+
+    transcript = ""
     while True:
         user_input = input("You: ").strip()
         if not user_input:
             continue
-        answer = get_answer(user_input)
+
+        transcript += "Student: " + user_input + "\n"
+        answer = get_answer(transcript)
+        transcript += "Tutor: " + answer + "\n"
         print("\nTutor: " + answer + "\n")
 
 
