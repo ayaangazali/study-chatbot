@@ -32,6 +32,9 @@ def main():
         user_input = input("You: ").strip()
         if not user_input:
             continue
+        if user_input == "/quit":
+            print("Happy studying! Bye.")
+            break
 
         transcript += "Student: " + user_input + "\n"
         answer = get_answer(transcript)
