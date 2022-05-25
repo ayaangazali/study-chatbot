@@ -12,6 +12,11 @@ PREAMBLE = (
     "Keep the conversation friendly and encouraging.\n\n"
 )
 
+HELP_TEXT = """Commands:
+  /help              - show this help
+  /quit              - exit
+"""
+
 
 def get_answer(transcript):
     prompt = PREAMBLE + transcript + "Tutor:"
@@ -26,6 +31,7 @@ def get_answer(transcript):
 
 def main():
     print("Study Tutor - ask me anything about what you're studying.")
+    print(HELP_TEXT)
 
     transcript = ""
     while True:
@@ -35,6 +41,9 @@ def main():
         if user_input == "/quit":
             print("Happy studying! Bye.")
             break
+        if user_input == "/help":
+            print(HELP_TEXT)
+            continue
 
         transcript += "Student: " + user_input + "\n"
         answer = get_answer(transcript)
