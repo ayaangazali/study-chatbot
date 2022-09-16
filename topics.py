@@ -14,3 +14,10 @@ def make_quiz(topic, num_questions=5):
         "Number each question, and put the answers in an answer key at the bottom."
         % (num_questions, topic)
     )
+
+
+def summarize_notes(notes):
+    return (
+        "Summarize the following study notes into clear bullet points "
+        "highlighting the key ideas:\n\n%s" % notes
+    )
