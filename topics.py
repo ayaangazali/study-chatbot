@@ -21,3 +21,11 @@ def summarize_notes(notes):
         "Summarize the following study notes into clear bullet points "
         "highlighting the key ideas:\n\n%s" % notes
     )
+
+
+def study_plan(topic, days=7):
+    return (
+        "Make a %d day study plan for learning %s. "
+        "Break it down day by day with goals and suggested activities."
+        % (days, topic)
+    )
