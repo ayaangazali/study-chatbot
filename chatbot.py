@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 import openai
 
+import topics
+
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -13,6 +15,7 @@ PREAMBLE = (
 )
 
 HELP_TEXT = """Commands:
+  /explain <topic>   - explain a concept
   /help              - show this help
   /quit              - exit
 """
@@ -27,6 +30,17 @@ def get_answer(transcript):
         temperature=0.7,
     )
     return response.choices[0].text.strip()
+
+
+def handle_command(user_input):
+    """Turn a study-mode command into a prompt string, or return None."""
+    parts = user_input.split(" ", 1)
+    command = parts[0]
+    arg = parts[1].strip() if len(parts) > 1 else ""
+
+    if command == "/explain" and arg:
+        return topics.explain_concept(arg)
+    return None
 
 
 def main():
@@ -45,7 +59,18 @@ def main():
             print(HELP_TEXT)
             continue
 
-        transcript += "Student: " + user_input + "\n"
+        # Study-mode commands get turned into a tailored prompt,
+        # otherwise we treat the input as a plain question.
+        if user_input.startswith("/"):
+            built = handle_command(user_input)
+            if built is None:
+                print("Unknown command. Type /help to see the options.\n")
+                continue
+            message = built
+        else:
+            message = user_input
+
+        transcript += "Student: " + message + "\n"
         answer = get_answer(transcript)
         transcript += "Tutor: " + answer + "\n"
         print("\nTutor: " + answer + "\n")
