@@ -16,6 +16,9 @@ PREAMBLE = (
 
 HELP_TEXT = """Commands:
   /explain <topic>   - explain a concept
+  /quiz <topic>      - make a short quiz
+  /summarize <notes> - summarize notes into bullet points
+  /plan <topic>      - build a study plan
   /help              - show this help
   /quit              - exit
 """
@@ -40,6 +43,12 @@ def handle_command(user_input):
 
     if command == "/explain" and arg:
         return topics.explain_concept(arg)
+    if command == "/quiz" and arg:
+        return topics.make_quiz(arg)
+    if command == "/summarize" and arg:
+        return topics.summarize_notes(arg)
+    if command == "/plan" and arg:
+        return topics.study_plan(arg)
     return None
 
 
