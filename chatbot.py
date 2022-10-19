@@ -1,9 +1,12 @@
 import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 import openai
 
 import topics
+
+LOG_FILE = "chat_log.txt"
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -35,6 +38,17 @@ def get_answer(transcript):
     return response.choices[0].text.strip()
 
 
+def save_log(transcript):
+    """Append the session transcript to the log file."""
+    if not transcript:
+        return
+    with open(LOG_FILE, "a") as f:
+        f.write("=== Session %s ===\n" % datetime.now().strftime("%Y-%m-%d %H:%M"))
+        f.write(transcript)
+        f.write("\n")
+    print("Chat log saved to %s" % LOG_FILE)
+
+
 def handle_command(user_input):
     """Turn a study-mode command into a prompt string, or return None."""
     parts = user_input.split(" ", 1)
@@ -62,6 +76,7 @@ def main():
         if not user_input:
             continue
         if user_input == "/quit":
+            save_log(transcript)
             print("Happy studying! Bye.")
             break
         if user_input == "/help":
