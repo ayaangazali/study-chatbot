@@ -29,24 +29,30 @@ HELP_TEXT = """Commands:
 
 def get_answer(transcript):
     prompt = PREAMBLE + transcript + "Tutor:"
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        max_tokens=512,
-        temperature=0.7,
-    )
-    return response.choices[0].text.strip()
+    try:
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            max_tokens=512,
+            temperature=0.7,
+        )
+        return response.choices[0].text.strip()
+    except Exception as e:
+        return "Sorry, something went wrong talking to the API: %s" % e
 
 
 def save_log(transcript):
     """Append the session transcript to the log file."""
     if not transcript:
         return
-    with open(LOG_FILE, "a") as f:
-        f.write("=== Session %s ===\n" % datetime.now().strftime("%Y-%m-%d %H:%M"))
-        f.write(transcript)
-        f.write("\n")
-    print("Chat log saved to %s" % LOG_FILE)
+    try:
+        with open(LOG_FILE, "a") as f:
+            f.write("=== Session %s ===\n" % datetime.now().strftime("%Y-%m-%d %H:%M"))
+            f.write(transcript)
+            f.write("\n")
+        print("Chat log saved to %s" % LOG_FILE)
+    except Exception as e:
+        print("Could not save chat log: %s" % e)
 
 
 def handle_command(user_input):
