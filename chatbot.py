@@ -73,6 +73,10 @@ def handle_command(user_input):
 
 
 def main():
+    if not openai.api_key:
+        print("Error: OPENAI_API_KEY is not set. Copy .env.example to .env and add your key.")
+        return
+
     print("Study Tutor - ask me anything about what you're studying.")
     print(HELP_TEXT)
 
